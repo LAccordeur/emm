@@ -38,7 +38,7 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where user_phone = #{userPhone}
+    where phone = #{phone}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user

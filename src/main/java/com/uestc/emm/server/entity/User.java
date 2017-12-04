@@ -2,13 +2,18 @@ package com.uestc.emm.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class User {
     private String id;
 
+    @NotNull(message = "登录账号需为11位手机号")
+    @Size(min = 11, max = 11)
     private String phone;
 
+    @NotNull(message = "密码不可为空")
     private String userName;
 
     private String email;

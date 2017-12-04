@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         String id = UUIDUtil.get32UUIDLowerCase();
         user.setId(id);
 
+        ValidationUtil.getInstance().validateParams(user);
         //创建网易云通信id
         String resultId = NeteaseImHelper.createToken(id, user.getUserName());
         if (resultId == null) {

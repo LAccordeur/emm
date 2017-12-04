@@ -8,7 +8,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="user_identity" jdbcType="VARCHAR" property="userIdentity" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
@@ -17,14 +17,28 @@
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, phone, user_name, email, password, token, identity, icon, sign, gender, birth, 
-    create_time, modified_time
+    id, phone, user_name, email, token, user_identity, icon, sign, gender, birth,
+    create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=CHAR}
+  </select>
+
+  <select id="selectByEntity" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where phone = #{phone} and password = #{password}
+  </select>
+
+  <select id="selectByPhone" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where phone = #{phone}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user
@@ -33,12 +47,12 @@
   <insert id="insert" parameterType="com.uestc.emm.server.entity.User">
     insert into user (id, phone, user_name, 
       email, password, token, 
-      identity, icon, sign, 
+      user_identity, icon, sign, 
       gender, birth, create_time, 
       modified_time)
     values (#{id,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
-      #{identity,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{userIdentity,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
       #{gender,jdbcType=TINYINT}, #{birth,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifiedTime,jdbcType=TIMESTAMP})
   </insert>
@@ -63,8 +77,8 @@
       <if test="token != null">
         token,
       </if>
-      <if test="identity != null">
-        identity,
+      <if test="userIdentity != null">
+        user_identity,
       </if>
       <if test="icon != null">
         icon,
@@ -104,8 +118,8 @@
       <if test="token != null">
         #{token,jdbcType=VARCHAR},
       </if>
-      <if test="identity != null">
-        #{identity,jdbcType=VARCHAR},
+      <if test="userIdentity != null">
+        #{userIdentity,jdbcType=VARCHAR},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -145,8 +159,8 @@
       <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
       </if>
-      <if test="identity != null">
-        identity = #{identity,jdbcType=VARCHAR},
+      <if test="userIdentity != null">
+        user_identity = #{userIdentity,jdbcType=VARCHAR},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
@@ -176,7 +190,7 @@
       email = #{email,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
-      identity = #{identity,jdbcType=VARCHAR},
+      user_identity = #{userIdentity,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       sign = #{sign,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=TINYINT},
